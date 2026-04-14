@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #1a1c1e;
+  color: #e5e7eb;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Military-Industrial Aesthetic */
+.tactical-border {
+  border: 2px solid #3b4d3c;
+}
+
+.tactical-shadow {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.btn-tactical {
+  @apply px-6 py-3 rounded font-semibold transition-all duration-200;
+  background-color: #3b4d3c;
+  color: #e5e7eb;
+}
+
+.btn-tactical:hover {
+  background-color: #4a5f4b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 77, 60, 0.6);
+}
