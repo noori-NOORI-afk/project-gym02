@@ -91,7 +91,7 @@ export default function PhoneCaptureModal({ isOpen, onClose }: PhoneCaptureModal
           </button>
 
           <p className="text-xs text-gray-400 text-center mt-4">
-            We'll send you an OTP to verify your phone number.
+            We&apos;ll send you an OTP to verify your phone number.
           </p>
         </form>
       </div>

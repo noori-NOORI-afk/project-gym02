@@ -45,7 +45,7 @@ export default function Home() {
 
           <p className="text-xl text-gray-300 mb-8 leading-relaxed">
             Led by <span className="font-semibold text-forest-green">Vikram Valecha</span>,
-            with 20+ years of competitive fitness experience. We don't just offer gym access.
+            with 20+ years of competitive fitness experience. We don&apos;t just offer gym access.
             We deliver <span className="font-bold">guaranteed transformation</span>.
           </p>
 
