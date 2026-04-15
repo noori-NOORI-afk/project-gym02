@@ -57,12 +57,12 @@ export default function Home() {
               <Phone className="inline mr-2 w-5 h-5" />
               Start Your Journey
             </button>
-            <link
+            <Link
               href="#about"
               className="px-6 py-3 rounded font-semibold border-2 border-forest-green text-forest-green hover:bg-forest-green hover:text-white transition"
             >
               Learn More
-            </link>
+            </Link>
           </div>
 
           {/* Membership Tiers */}
