@@ -1,59 +1,87 @@
 'use client'
 
+import { useState } from 'react'
+import { supabase } from '@/lib/supabase' 
+import { Zap, ChevronLeft } from 'lucide-react'
 import Link from 'next/link'
-import { Zap } from 'lucide-react'
 
-export default function LoginPage() {
+export default function AuthPage() {
+  const [isSignUp, setIsSignUp] = useState(false) 
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  const handleAuth = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setLoading(true)
+
+    if (isSignUp) {
+      // Create new account in Supabase
+      const { data, error } = await supabase.auth.signUp({ 
+        email, 
+        password,
+        options: {
+          emailRedirectTo: window.location.origin,
+        }
+      })
+      if (error) alert(`Sign Up Error: ${error.message}`)
+      else alert('Account created! Check your email to verify.')
+    } else {
+      // Log in existing user
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+      if (error) alert(`Login Error: ${error.message}`)
+      else alert('Logged in! Welcome to the gym.')
+    }
+    setLoading(false)
+  }
+
   return (
     <div className="min-h-screen bg-slate-grey flex items-center justify-center p-6">
-      {/* Back to Home Button */}
       <div className="absolute top-8 left-8">
-        <Link href="/" className="text-forest-green hover:underline font-bold">
-          ← BACK
+        <Link href="/" className="text-forest-green hover:text-white font-bold flex items-center">
+          <ChevronLeft size={20} /> BACK TO HOME
         </Link>
       </div>
 
-      <div className="max-w-md w-full bg-tactical-black p-10 rounded-lg border-2 border-forest-green shadow-2xl">
-        <div className="flex justify-center mb-6">
-          <Zap className="w-12 h-12 text-forest-green" />
-        </div>
-        
-        <h2 className="text-4xl font-black text-white mb-2 text-center tracking-tighter">
-          CLIENT <span className="text-forest-green">PORTAL</span>
+      <div className="max-w-md w-full bg-tactical-black p-10 rounded border-2 border-forest-green shadow-2xl">
+        <h2 className="text-3xl font-black text-white mb-6 text-center tracking-tighter italic">
+          {isSignUp ? 'MEMBER ENROLLMENT' : 'CLIENT LOGIN'}
         </h2>
-        <p className="text-gray-400 text-center mb-8 text-sm uppercase tracking-widest">
-          Enter credentials to proceed
-        </p>
 
-        <form className="space-y-6">
-          <div>
-            <label className="block text-xs font-bold text-forest-green mb-2 uppercase">Email Address</label>
-            <input 
-              type="email" 
-              placeholder="name@example.com" 
-              className="w-full p-4 bg-slate-grey text-white border border-gray-700 rounded focus:border-forest-green outline-none transition"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold text-forest-green mb-2 uppercase">Password</label>
-            <input 
-              type="password" 
-              placeholder="••••••••" 
-              className="w-full p-4 bg-slate-grey text-white border border-gray-700 rounded focus:border-forest-green outline-none transition"
-            />
-          </div>
-
-          <button className="w-full bg-forest-green hover:bg-green-600 text-white font-black py-4 rounded transition duration-300 transform hover:scale-[1.02]">
-            LOG IN
+        <form onSubmit={handleAuth} className="space-y-4">
+          <input 
+            type="email" 
+            placeholder="EMAIL ADDRESS" 
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full p-4 bg-slate-grey text-white border border-gray-700 rounded focus:border-forest-green outline-none" 
+            required 
+          />
+          <input 
+            type="password" 
+            placeholder="PASSWORD" 
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full p-4 bg-slate-grey text-white border border-gray-700 rounded focus:border-forest-green outline-none" 
+            required 
+          />
+          <button 
+            type="submit"
+            disabled={loading} 
+            className="w-full bg-forest-green hover:bg-green-600 py-4 font-black text-white rounded transition disabled:opacity-50"
+          >
+            {loading ? 'SYNCHRONIZING...' : isSignUp ? 'CREATE ACCOUNT' : 'LOG IN'}
           </button>
         </form>
 
-        <div className="mt-8 text-center">
-          <p className="text-gray-500 text-xs">
-            Body Fit Training © 2026 | Guaranteed Transformation
-          </p>
-        </div>
+        <p className="mt-6 text-center text-xs text-gray-500 font-bold uppercase tracking-widest">
+          {isSignUp ? 'Already have access?' : 'New prospect?'} 
+          <button 
+            type="button"
+            onClick={() => setIsSignUp(!isSignUp)} 
+            className="ml-2 text-forest-green hover:underline"
+          >
+            {isSignUp ? 'LOG IN' : 'JOIN NOW'}
+          </button>
+        </p>
       </div>
     </div>
   )
